@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MASTERCORE MOBILE</title>
+<style>
+:root{--bg:#061321;--panel:#0a2038;--line:#168bd7;--text:#eaf4ff;--blue:#087fff;--green:#00c99a;--red:#ff5368;--gold:#ffbd43}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding-bottom:60px}
+.header{background:#04182b;padding:15px;text-align:center;border-bottom:2px solid var(--line);box-shadow:0 4px 10px rgba(0,0,0,0.5)}
+.header h1{margin:0;font-size:20px;color:var(--blue);letter-spacing:2px}
+.header p{margin:5px 0 0;font-size:12px;color:#a9c0d8}
+.container{padding:15px}
+.tabs{display:flex;justify-content:space-around;background:#04172a;position:fixed;bottom:0;width:100%;padding:10px 0;border-top:1px solid var(--line);z-index:10}
+.tab{color:#a9c0d8;font-size:12px;text-align:center;cursor:pointer;background:none;border:none}
+.tab.active{color:var(--green);font-weight:bold}
+.view{display:none}.view.active{display:block}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px;margin-bottom:15px}
+.panel h2{margin:0 0 10px;font-size:16px;border-bottom:1px solid #1b4668;padding-bottom:5px}
+.wheel-container{display:flex;justify-content:center;align-items:center;height:200px;position:relative;margin:10px 0}
+.wheel{position:absolute;border-radius:50%;border:2px dashed var(--blue);display:flex;justify-content:center;align-items:center;animation:spin 20s linear infinite}
+.wheel.outer{width:180px;height:180px;border-color:var(--gold)}
+.wheel.inner{width:120px;height:120px;border-color:var(--green);animation-direction:reverse;animation-duration:15s}
+.wheel.center{width:60px;height:60px;border-color:var(--red);animation:none;background:rgba(255,83,104,0.1);font-weight:bold;font-size:12px;text-align:center;flex-direction:column}
+@keyframes spin{100%{transform:rotate(360deg)}}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#04172a;padding:10px;border-radius:8px;text-align:center;border:1px solid #1b4668}
+.stat span{display:block;font-size:11px;color:#a9c0d8}
+.stat strong{font-size:16px;color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(7, 1fr);gap:4px;margin-top:10px}
+.cell{aspect-ratio:1;background:#04172a;border:1px solid #1b4668;border-radius:4px;display:flex;justify-content:center;align-items:center;font-size:9px;color:#a9c0d8}
+.cell.active{background:var(--green);color:#000;border-color:var(--green)}
+.parable-box{background:#04172a;border-left:4px solid var(--gold);padding:10px;margin-top:10px;font-size:13px;line-height:1.4}
+.btn{width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:bold;margin-top:10px;cursor:pointer}
+.btn:active{background:#0056b3}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>MASTERCORE MOBILE</h1>
+<p>Ezekiel Core OS v1.0</p>
+</div>
+
+<div class="container">
+<!-- DASHBOARD VIEW -->
+<div id="view-dash" class="view active">
+<div class="panel">
+<h2>THE CHARIOT (System Status)</h2>
+<div class="wheel-container">
+<div class="wheel outer"></div>
+<div class="wheel inner"></div>
+<div class="wheel center"><span>50K</span><span>Jubilee</span></div>
+</div>
+<p style="text-align:center;font-size:11px;margin:0;color:#a9c0d8">Spirit Engine: Active</p>
+</div>
+<div class="panel">
+<h2>MASTER CLOCKS</h2>
+<div class="stats">
+<div class="stat"><span>Architecture</span><strong>5,880 Yrs</strong></div>
+<div class="stat"><span>Master Week</span><strong>49,000 Yrs</strong></div>
+<div class="stat"><span>True Jubilee</span><strong>1,000 Yrs</strong></div>
+<div class="stat"><span>Literal Days</span><strong>5,880 Days</strong></div>
+</div>
+</div>
+</div>
+
+<!-- GRID VIEW -->
+<div id="view-grid" class="view">
+<div class="panel">
+<h2>THE EYES (5,880 Slots)</h2>
+<p style="font-size:12px;margin:0 0 10px;color:#a9c0d8">Tracking 49 Barrels x 120 Sections.</p>
+<div class="grid" id="trackingGrid"></div>
+</div>
+</div>
+
+<!-- TUTOR VIEW -->
+<div id="view-tutor" class="view">
+<div class="panel">
+<h2>ORPHANED TUTOR</h2>
+<p style="font-size:12px;color:#a9c0d8">Teaching Reservoir: Batch 1</p>
+<div class="parable-box" id="parableDisplay">
+Click below to retrieve a Kingdom algorithm.
+</div>
+<button class="btn" onclick="runTutor()">Execute Parable</button>
+</div>
+</div>
+</div>
+
+<div class="tabs">
+<button class="tab active" onclick="switchView('dash', this)">Chariot</button>
+<button class="tab" onclick="switchView('grid', this)">The Eyes</button>
+<button class="tab" onclick="switchView('tutor', this)">Tutor</button>
+</div>
+
+<script>
+// Tab Switching
+function switchView(viewId, btn) {
+document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+document.getElementById('view-' + viewId).classList.add('active');
+btn.classList.add('active');
+}
+
+// Populate the 5,880 tracking grid (simulated here as a visual subset)
+const gridContainer = document.getElementById('trackingGrid');
+for(let i=0; i<49; i++) {
+let cell = document.createElement('div');
+cell.className = 'cell';
+// Simulate a few active years out of the 120 per barrel
+cell.textContent = (i === 0) ? '840' : (i === 23) ? '5880' : '';
+if(i===0 || i===23) cell.classList.add('active');
+gridContainer.appendChild(cell);
+}
+
+// Tutor Logic (Batch 1)
+const parables = [
+{ title: "The Sower and the Seed", text: "A farmer scatters seed across different types of soil. Some falls on the hard path, some on rocky ground, some among thorns, and some on good soil. Lesson: The message of the Kingdom reaches different hearts; only the receptive heart produces lasting fruit. (Matt 13:3-9)" },
+{ title: "The Wheat and the Weeds", text: "A man plants good seed. An enemy plants weeds. Both grow together until the harvest. Lesson: Good and bad coexist; final judgment and separation belong to the angels at the conclusion of the system. (Matt 13:24-30)" },
+{ title: "The Mustard Grain", text: "A tiny mustard seed grows into a large tree. Lesson: The Kingdom message starts small but grows into a vast, protective arrangement. (Matt 13:31-32)" },
+{ title: "The Hidden Treasure", text: "A man finds a treasure in a field and sells everything to buy it. Lesson: The Kingdom is so valuable that a wise person will gladly give up everything to attain it. (Matt 13:44)" },
+{ title: "The Unmerciful Slave", text: "A slave is forgiven a massive debt but refuses to forgive a small one. Lesson: Jehovah forgives our vast debt of sin; we must forgive others their small offenses. (Matt 18:23-35)" },
+{ title: "The Good Samaritan", text: "A hated outsider shows mercy to a beaten man when religious leaders pass by. Lesson: True neighborly love transcends boundaries; mercy is shown through action. (Luke 10:30-37)" }
+];
+
+function runTutor() {
+const randomParable = parables[Math.floor(Math.random() * parables.length)];
+document.getElementById('parableDisplay').innerHTML = `<strong>${randomParable.title}</strong><br><br>${randomParable.text}`;
+}
+</script>
+</body>
+</html>
